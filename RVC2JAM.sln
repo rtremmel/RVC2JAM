@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{b270d203-bfa2-47cf-8498-b7572ad82dde}") = "RVC2JAM", "RVC2JAM\RVC2JAM.csproj", "{ce7d6abc-f2b2-48cf-886a-f438edbe5a39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ce7d6abc-f2b2-48cf-886a-f438edbe5a39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ce7d6abc-f2b2-48cf-886a-f438edbe5a39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ce7d6abc-f2b2-48cf-886a-f438edbe5a39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ce7d6abc-f2b2-48cf-886a-f438edbe5a39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {f3a6f8ce-69df-4e84-947d-faed6477fa8c}
+	EndGlobalSection
+EndGlobal
