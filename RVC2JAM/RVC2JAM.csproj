@@ -94,6 +94,8 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="bin\Debug\JAM - RV ETL Tracker - RICK.xlsx" />
+    <None Include="bin\Debug\JAM - RV ETL Tracker SCORM-V3%28RICK%29.xlsx" />
     <None Include="bin\Debug\_TEMPLATE_\adlcp_rootv1p2.xsd">
       <SubType>Designer</SubType>
     </None>

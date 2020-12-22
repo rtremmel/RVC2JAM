@@ -1,9 +1,8 @@
 ﻿#define NLOG
-//#define VERBOSE_SEARCHSTRING_DEBUGGING
+#define VERBOSE_SEARCHSTRING_DEBUGGING
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.OleDb;
@@ -33,16 +32,16 @@ namespace VectorSolutions
         [Description("RLTLIB2 Help")]
         public static string Help()
         {
-            string help = "\nRick Tremmel's Common Method Library Version 2 - ";
+            string help = "Rick Tremmel's Common Method Library Version 2 - ";
             help += $"RLTLIB2 last modified {LastModifiedDate}\n";
-            help += "(A collection of common properties and methods used by stand alone applications)\n";
+            help += "A collection of common properties and methods used by stand alone applications\n";
             help += "Categories:\n";
             help += "\tHelp(about this class), Application, Console, DataTable, Database, \n";
             help += "\tDocumentation, Email, Excel, File/Folder, Format, Log, String, URL String Extensions. \n";
             help += "Requires:\n";
             help += "\tNuGet Package NLOG (optional).  If NLOG not defined, logging uses Debug.WriteLine and local file.\n";
             help += "\tNuGet Package EPPlus used to create Excel Workbooks.\n";
-            help += "\tMicrosoft.ACE.OLEDB.12.0 installed: http://www.microsoft.com/en-us/download/details.aspx?id=13255\n";
+            help += "\tMicrosoft.ACE.OLEDB.12.0 install: http://www.microsoft.com/en-us/download/details.aspx?id=13255\n";
             help += "\tReference to System.Configuration\n";
             help += "\tReference to System.Drawing\n";
             help += "\tConfigurationManager.AppSettings[\"RvEmailerServiceAttachmentPathExternal\"],\n";
@@ -89,7 +88,7 @@ namespace VectorSolutions
             try
             {
                 string attachments = "";
-                if (!String.IsNullOrWhiteSpace(attachmentPaths))
+                if (!string.IsNullOrWhiteSpace(attachmentPaths))
                     foreach (string localFilePath in attachmentPaths.Split(';'))
                     {
                         string remoteFilePathInternal;
@@ -159,7 +158,7 @@ namespace VectorSolutions
         private static readonly Attribute Aca = Attribute.GetCustomAttribute(Ea, typeof(AssemblyCopyrightAttribute));
 
         [Category("Application")] [Description("The date RLTLIB2.cs was last updated.")]
-        public static string LastModifiedDate = "07/01/2020";
+        public static string LastModifiedDate = "09/24/2020";
 
         [Category("Application")] [Description("The value of the major component of the version number for the currently executing application.")]
         private static readonly int Major = Eanv.Major;
@@ -311,7 +310,7 @@ namespace VectorSolutions
                         if (parameters != null)
                             foreach (KeyValuePair<string, object> p in parameters)
                                 cmd.Parameters.AddWithValue(p.Key, p.Value);
-                        SqlDataAdapter da = new SqlDataAdapter { SelectCommand = cmd };
+                        SqlDataAdapter da = new SqlDataAdapter {SelectCommand = cmd};
                         da.Fill(dt);
                         elapsedTime = DateTime.Now - startQuery;
                         return dt;
@@ -337,7 +336,7 @@ namespace VectorSolutions
             try
             {
                 string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(filePath);
-                if (String.IsNullOrWhiteSpace(fileNameWithoutExtension))
+                if (string.IsNullOrWhiteSpace(fileNameWithoutExtension))
                 {
                     errorMessage = $"Invalid filename '{filePath}'";
                     return new DataTable();
@@ -351,7 +350,7 @@ namespace VectorSolutions
 
                 const string provider = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=\"{0}\";Extended Properties=\"text;HDR=Yes;FMT=Delimited(,)\"";
 
-                using (OleDbConnection conn = new OleDbConnection(String.Format(provider, fileDirectory)))
+                using (OleDbConnection conn = new OleDbConnection(string.Format(provider, fileDirectory)))
                 {
                     conn.Open();
                     using (OleDbDataAdapter da = new OleDbDataAdapter($"SELECT * FROM [{filePath}]", conn))
@@ -427,17 +426,14 @@ namespace VectorSolutions
                     ? "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"{0}\";Jet OLEDB:Engine Type=5;Extended Properties=\"Excel 12.0;HDR=1;IMEX=1\""
                     : "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\"{0}\";Extended Properties=\"Excel 12.0;HDR=1;IMEX=1\"";
 
-                using (OleDbConnection conn = new OleDbConnection(String.Format(provider, filePath)))
+                using (OleDbConnection conn = new OleDbConnection(string.Format(provider, filePath)))
                 {
                     conn.Open();
-                    // If sheetName is not specified, assume there is only one sheet
-                    if (String.IsNullOrWhiteSpace(sheetName))
+                    // If sheetName is not specified, use first sheet
+                    if (string.IsNullOrWhiteSpace(sheetName))
                     {
                         DataTable sheetTable = conn.GetSchema("Tables");
-
-                        sheetName = "Sheet1$";
-                        foreach (DataRow dr in sheetTable.Rows.Cast<DataRow>().Where(dr => dr["TABLE_NAME"].ToString().EndsWith("$")))
-                            sheetName = dr["TABLE_NAME"].ToString();
+                        sheetName = sheetTable.Rows[0]["TABLE_NAME"].ToString();
                     }
 
                     // Remove any single quotes from sheetName
@@ -471,7 +467,6 @@ namespace VectorSolutions
         {
             try
             {
-                //ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 using (ExcelPackage package = new ExcelPackage(new FileInfo(savePath)))
                 {
                     // Set package properties
@@ -527,11 +522,11 @@ namespace VectorSolutions
                 string provider = Path.GetExtension(fileName.ToLower()) == ".xlsx"
                     ? "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Jet OLEDB:Engine Type=5;Extended Properties=\"Excel 12.0;HDR=NO;IMEX=1\""
                     : "Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Jet OLEDB:Engine Type=5;Extended Properties=\"Excel 8.0;HDR=NO;IMEX=1\"";
-                using (OleDbConnection conn = new OleDbConnection(String.Format(provider, fileName)))
+                using (OleDbConnection conn = new OleDbConnection(string.Format(provider, fileName)))
                 {
                     conn.Open();
                     // If sheetName is not specified, assume there is only one sheet
-                    if (String.IsNullOrWhiteSpace(sheetName))
+                    if (string.IsNullOrWhiteSpace(sheetName))
                     {
                         DataTable sheetTable = conn.GetSchema("Tables");
                         DataRow rowSheetName = sheetTable.Rows[0];
@@ -542,7 +537,7 @@ namespace VectorSolutions
                         sheetName += "$";
                     }
 
-                    string sql = $"UPDATE [{sheetName}] SET {column}='{value}' WHERE {@where}";
+                    string sql = $"UPDATE [{sheetName}] SET {column}='{value}' WHERE {where}";
                     using (OleDbCommand cmd = new OleDbCommand(sql, conn))
                     {
                         Debug.WriteLine(sql);
@@ -583,13 +578,13 @@ namespace VectorSolutions
         [Description("Smart format elapsed time.")]
         public static string FormatElapsedTime(TimeSpan ts)
         {
-            string days = ts.Days > 0 ? $"{ts.Days:n0} day{(ts.Days == 1 ? "" : "s")}, " : String.Empty;
-            string hours = ts.Hours > 0 ? $"{ts.Hours:n0} hour{(ts.Hours == 1 ? "" : "s")}, " : String.Empty;
-            string minutes = ts.Minutes > 0 ? $"{ts.Minutes:n0} minute{(ts.Minutes == 1 ? "" : "s")}, " : String.Empty;
-            string seconds = ts.Seconds > 0 ? $"{ts.Seconds:n0} second{(ts.Seconds == 1 ? "" : "s")}, " : String.Empty;
+            string days = ts.Days > 0 ? $"{ts.Days:n0} day{(ts.Days == 1 ? "" : "s")}, " : string.Empty;
+            string hours = ts.Hours > 0 ? $"{ts.Hours:n0} hour{(ts.Hours == 1 ? "" : "s")}, " : string.Empty;
+            string minutes = ts.Minutes > 0 ? $"{ts.Minutes:n0} minute{(ts.Minutes == 1 ? "" : "s")}, " : string.Empty;
+            string seconds = ts.Seconds > 0 ? $"{ts.Seconds:n0} second{(ts.Seconds == 1 ? "" : "s")}, " : string.Empty;
             string milliseconds = ts.Milliseconds > 0
                 ? $"{ts.Milliseconds:n0} millisecond{(ts.Milliseconds == 1 ? "" : "s")}, "
-                : String.Empty;
+                : string.Empty;
             string s = $"{days}{hours}{minutes}{seconds}{milliseconds}";
             if (s.EndsWith(", "))
                 s = s.Substring(0, s.Length - 2);
@@ -598,9 +593,42 @@ namespace VectorSolutions
             return s;
         }
 
+        [Category("Format")]
+        [Description("Compress SQL query into single string for log.")]
+        public static string FormatSqlQueryforLog(string sql)
+        {
+            sql = sql.Replace("\r", " ");
+            sql = sql.Replace("\n", " ");
+            sql = sql.Replace("\t", " ");
+            while (sql.Contains("  "))
+                sql = sql.Replace("  ", " ");
+            return sql.Trim();
+        }
+
+        [Category("Format")]
+        [Description("Compress SQL stored procedure call into single string for log.")]
+        public static string FormatSqlSprocForLog(string sproc, Dictionary<string, string> parameters)
+        {
+            string parms = "";
+            foreach (KeyValuePair<string, string> p in parameters)
+                parms += $"{p.Key}={p.Value},";
+            return $"EXEC {sproc} ({parms.TrimEnd(',')})";
+        }
+
         #endregion Format Helpers
 
         #region File and Folder Helpers
+
+        [Category("File/Folder")]
+        [Description("Return filename, create date, and optional modified date as string for logging.")]
+        public static string FileDetails2String(string path)
+        {
+            FileInfo fi = new FileInfo(path);
+            string ret = $"'{Path.GetFileName(path)}' ({FormatBytes(fi.Length)}) created {fi.CreationTime}";
+            if (fi.CreationTime != fi.LastWriteTime)
+                ret += $" and last updated {fi.LastWriteTime}";
+            return ret;
+        }
 
         [Category("File/Folder")]
         [Description("Read text file.")]
@@ -757,8 +785,7 @@ namespace VectorSolutions
             }
 
             if (ll >= CopyFolderTreeLoggingLevel.Summary)
-                Log(
-                    $"\tCopied {countFiles:n0} files and created {countDirectories:n0} directories in {FormatElapsedTime(DateTime.Now - start)} ({FormatBytes(DirSize(new DirectoryInfo(targetFolder)))})");
+                Log($"\tCopied {countFiles:n0} files and created {countDirectories:n0} directories in {FormatElapsedTime(DateTime.Now - start)}");
         }
 
         [Category("File/Folder")]
@@ -969,18 +996,22 @@ namespace VectorSolutions
         #region String Helpers
 
         [Category("String")]
-        [Description("Simple Pluralize.  Returns 'val' formatted as ':n0' plus pluralized 'sng' string")]
-        public static string Pluralize(int val, string sng)
+        [Description("Simple Pluralize.  Returns 'i' formatted as ':n0' plus pluralized 'single' string")]
+        public static string Pluralize(int i, string single)
         {
-            return Pluralize(val, sng, sng + "s");
+            string plural = $"{single}s";
+            if (single.EndsWith("ch") || single.EndsWith("x") || single.EndsWith("s"))
+                plural = $"{single}es";
+            return Pluralize(i, single, plural);
         }
 
-        [Description("Custom Pluralize.  Returns 'val' formatted as ':n0' plus 'sng' if singular otherwise 'plu' string")]
-        public static string Pluralize(int val, string sng, string plu)
+        [Category("String")]
+        [Description("Custom Pluralize.  Returns 'i' formatted as ':n0' plus 'single' if singular otherwise 'plural' string")]
+        public static string Pluralize(int i, string single, string plural)
         {
-            return $"{val:n0} {(val == 1 ? sng : plu)}";
+            return $"{i:n0} {(i == 1 ? single : plural)}";
         }
-        
+
         [Category("String")]
         [Description(
             "Search string for text that 'beginsWith' and 'endsWith' and contains 'contains' but excludes 'excludes'.  Returns list of matched strings.  Include 'beginsWith' and 'endsWith' in returned strings if 'includeBeginsEnds' is true"
@@ -992,7 +1023,7 @@ namespace VectorSolutions
 
             string debugInfo = "";
 
-            if (String.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text))
                 return matches;
 
             string txt = ignoreCase ? text.ToLower() : text;
@@ -1000,7 +1031,7 @@ namespace VectorSolutions
             string eds = ignoreCase ? endsWith.ToLower() : endsWith;
             string con = ignoreCase ? contains.ToLower() : contains;
             string exc = ignoreCase ? excludes.ToLower() : excludes;
-            if (String.IsNullOrWhiteSpace(exc))
+            if (string.IsNullOrWhiteSpace(exc))
                 exc = "DO-NOT-FIND-ME";
 
             debugInfo += "\n----- Begin SearchString() Debugging -----\n";
@@ -1069,7 +1100,7 @@ namespace VectorSolutions
             // ReSharper disable CommentTypo
             // ReSharper disable StringLiteralTypo
             const string htmlTagPattern = "<.*?>";
-            s = Regex.Replace(s, htmlTagPattern, String.Empty); //Strip HTML
+            s = Regex.Replace(s, htmlTagPattern, string.Empty); //Strip HTML
             s = s.Replace("\n", " "); //Strip CrLf
             s = s.Replace("\r", " "); //Strip Cr
             //

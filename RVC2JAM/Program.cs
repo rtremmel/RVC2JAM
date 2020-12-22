@@ -85,11 +85,12 @@ namespace RVC2JAM
 
             for (var index = 0; index < CoursesToProcessTable.Rows.Count; index++)
             {
-                string rvSku = CoursesToProcessTable.Rows[index]["Course ID"].ToString().Trim().ToUpper();
+                string rvSku = CoursesToProcessTable.Rows[index]["Legacy SKU"].ToString().Trim().ToUpper();
+                //string jamSku = CoursesToProcessTable.Rows[index]["JAM SKU"].ToString().Trim().ToUpper();
 
                 RLTLIB2.LogRepeatedChar('-', 120);
-                RLTLIB2.Log(
-                    $"Course {index + 1:n0}/{CoursesToProcessTable.Rows.Count:n0} ({(index + 1) * 100.0 / CoursesToProcessTable.Rows.Count:n1}%) {rvSku}");
+                //RLTLIB2.Log($"Course {index + 1:n0}/{CoursesToProcessTable.Rows.Count:n0} ({(index + 1) * 100.0 / CoursesToProcessTable.Rows.Count:n1}%) {rvSku} ({jamSku})");
+                RLTLIB2.Log($"Course {index + 1:n0}/{CoursesToProcessTable.Rows.Count:n0} ({(index + 1) * 100.0 / CoursesToProcessTable.Rows.Count:n1}%) {rvSku}");
 
                 if (ContentSet.ExcludedCourses().Contains(rvSku))
                 {

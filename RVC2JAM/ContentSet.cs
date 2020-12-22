@@ -39,7 +39,7 @@ namespace RVC2JAM
                 if (!string.IsNullOrWhiteSpace(OnlyProcessThisRvSku))
                 {
                     RLTLIB2.Log($"*** ONLY PROCESSING COURSE '{OnlyProcessThisRvSku}' ***");
-                    dt = dt.AsEnumerable().Where(r => r["Course ID"].ToString() == OnlyProcessThisRvSku).CopyToDataTable();
+                    dt = dt.AsEnumerable().Where(r => r["Legacy SKU"].ToString() == OnlyProcessThisRvSku).CopyToDataTable();
                 }
 
                 ContentControlSelectedCount = dt.Rows.Count;

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("RVC2JAM")]
-[assembly: AssemblyDescription("RedVector Content to JAM")]
+[assembly: AssemblyDescription("RedVector Content Export for JAM")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RedVector.com, LLC.")]
 [assembly: AssemblyProduct("RVC2JAM")]
@@ -35,4 +35,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.1.*")]
